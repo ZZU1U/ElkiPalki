@@ -9,7 +9,6 @@ from flet import (
 )
 
 load_dotenv(find_dotenv())
-api_keys = 'AIzaSyCC0s7_MNGY-3Lq2VfH6jXzB748TF9LByQ'
 
 class App:
     async def init(self, page):

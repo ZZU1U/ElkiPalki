@@ -6,6 +6,7 @@ from dotenv import load_dotenv, find_dotenv
 from flet import (
     Page,
     Text,
+    LoginEvent
 )
 
 load_dotenv(find_dotenv())
@@ -21,8 +22,8 @@ class App:
             page.login(provider)
 
         def on_login(e):
-            print("Access token:", page.auth.token.access_token)
-            print("User ID:", page.auth.user.id)
+            page.add(ft.Text('successfull'))
+            page.update()
 
         page.on_login = on_login
         head = ft.Row(controls=[ft.Container(content=ft.Image(src=f'/home/nikola/PycharmProjects/ElkiPalki/app/WatchDogs/image 1.png', width=50, height=48.9)),

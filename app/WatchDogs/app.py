@@ -2,16 +2,19 @@ import asyncio
 import flet as ft
 import os
 from flet.auth.providers import GoogleOAuthProvider
+from dotenv import load_dotenv, find_dotenv
 from flet import (
     Page,
     Text,
 )
+
+load_dotenv(find_dotenv())
 api_keys = 'AIzaSyCC0s7_MNGY-3Lq2VfH6jXzB748TF9LByQ'
 
 class App:
     async def init(self, page):
-        provider = GoogleOAuthProvider(client_id="104214134843-0jjqdtu9kmk75395sfiv0t36t85nsuen.apps.googleusercontent.com",
-                                       client_secret="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",
+        provider = GoogleOAuthProvider(client_id=os.environ.get('clientid'),
+                                       client_secret=os.environ.get('secret'),
                                        redirect_url="http://localhost:8550/api/oauth/redirect", )
 
         def login_click(e):

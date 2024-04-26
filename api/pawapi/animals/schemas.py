@@ -15,3 +15,11 @@ class AnimalBase(BaseModel):
     food_donated: int | None
     food_daily: int | None
     walks: Any  # TODO should probably change this
+
+
+class AnimalRead(AnimalBase):
+    id: int
+
+
+class AnimalWrite(AnimalBase):
+    pass

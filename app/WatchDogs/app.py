@@ -10,8 +10,9 @@ from flet import (
 
 load_dotenv(find_dotenv())
 
+
 class App:
-    async def init(self, page):
+    async def init(self, page: Page):
         provider = GoogleOAuthProvider(client_id=os.environ.get('client_id'),
                                        client_secret=os.environ.get('secret'),
                                        redirect_url=os.environ.get('redirect_url'), )
@@ -20,6 +21,7 @@ class App:
             page.login(provider)
 
         def on_login(e):
+            page.client_storage.set('access_token', page.auth.token.access_token)
             print("Access token:", page.auth.token.access_token)
             print("User ID:", page.auth.user.id)
 
@@ -27,9 +29,7 @@ class App:
         await page.add_async(Text('Привет, собаки!'), ft.ElevatedButton("Login with Google", on_click=login_click))
 
     def __init__(self, page: Page):
+        asyncio.run(self.init(page))
 
         self.page = Page
-        self.cont = ft.Container()
-
-        asyncio.run(self.init(page))
 

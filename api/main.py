@@ -1,3 +1,6 @@
+import sys
+sys.dont_write_bytecode = True # Disables pycache
+
 import uvicorn
 from pawapi.router import app
 

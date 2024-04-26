@@ -10,6 +10,7 @@ package-mode = false
 python = "^3.10"
 flet = "^0.22.0"
 python-dotenv = "^1.0.1"
+python-for-android = {git = "https://github.com/flet-dev/python-for-android.git", rev = "3.11.6"}
 
 
 [build-system]

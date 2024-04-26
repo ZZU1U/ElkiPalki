@@ -13,9 +13,9 @@ api_keys = 'AIzaSyCC0s7_MNGY-3Lq2VfH6jXzB748TF9LByQ'
 
 class App:
     async def init(self, page):
-        provider = GoogleOAuthProvider(client_id=os.environ.get('clientid'),
+        provider = GoogleOAuthProvider(client_id=os.environ.get('client_id'),
                                        client_secret=os.environ.get('secret'),
-                                       redirect_url="http://localhost:8550/api/oauth/redirect", )
+                                       redirect_url=os.environ.get('redirect_url'), )
 
         def login_click(e):
             page.login(provider)

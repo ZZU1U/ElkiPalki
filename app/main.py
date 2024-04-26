@@ -5,4 +5,4 @@ import asyncio
 import flet as ft
 from WatchDogs.app import App
 
-asyncio.run(ft.app_async(App))
+asyncio.run(ft.app_async(App, port=8550, view=ft.AppView.FLET_APP_WEB))

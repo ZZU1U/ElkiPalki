@@ -1,0 +1,39 @@
+Enum role {
+  user
+  volunteer
+  admin
+}
+
+Enum animalStatus {
+  avaliable
+  adopted
+  overexposure // Передержка
+  unavaliable
+}
+
+Table User {
+  id int [primary key]
+  name char
+  google_data SOMEDATA
+  role role
+}
+
+Table Animal {
+  id int [primary key]
+  name char
+  description char
+  image image
+  status animalStatus
+
+  // Дата прогулки
+  food int // В кг
+  food_max int
+}
+
+Table Walks {
+  id int [primary key]
+  date_start datetime
+  duration int // В минутах
+  animal_id int [ref:> Animal.id]
+  user_id int [ref:> User.id]
+}

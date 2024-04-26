@@ -25,17 +25,14 @@ class App:
             print("User ID:", page.auth.user.id)
 
         page.on_login = on_login
-        cont = ft.Container(ft.Row(controls=[ft.Image(src=f'/home/nikola/PycharmProjects/ElkiPalki/app/WatchDogs/image 1.png', width=50,
-        height=48.9,
-        fit=ft.ImageFit.CONTAIN), Text('Привет, собаки!', font_family='Caveat')]))
-        await page.add_async(ft.Column(controls=[cont,
-                             ft.FilledButton("Login with Google", on_click=login_click,
-                                               style=buttonstyle)]))
+        head = ft.Row(controls=[ft.Container(content=ft.Image(src=f'/home/nikola/PycharmProjects/ElkiPalki/app/WatchDogs/image 1.png', width=50, height=48.9)),
+                             ft.Container(content=Text('Привет, собаки!', font_family='Caveat'))], alignment=ft.MainAxisAlignment.CENTER)
+        sign = ft.Row(controls=[ft.FilledButton("Login with Google", on_click=login_click,
+                                               style=buttonstyle)], alignment=ft.MainAxisAlignment.CENTER, vertical_alignment=ft.CrossAxisAlignment.CENTER)
+        await page.add_async(ft.Column(controls=[ft.Container(head, height=300), ft.Container(sign)]))
 
     def __init__(self, page: Page):
-
         self.page = Page
-
         self.cont = ft.Container()
         page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
         asyncio.run(self.init(page))

@@ -10,7 +10,6 @@ package-mode = false
 python = "^3.10"
 fastapi = "^0.110.2"
 sqlalchemy = "^2.0.29"
-python-dotenv = "^1.0.1"
 pydantic = "^2.7.1"
 pydantic-settings = "^2.2.1"
 asyncpg = "^0.29.0"

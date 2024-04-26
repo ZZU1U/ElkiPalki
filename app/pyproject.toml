@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "elki"
+name = "PawPalaceApp"
 version = "0.1.0"
-description = ""
-authors = ["g <zzu1u@list.ru>"]
+description = "PawPalace app"
+authors = ["glrb", "NikolayNE", "StepanAdskiy"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 flet = "^0.22.0"
 
 

@@ -3,18 +3,19 @@ import flet as ft
 import datetime as dt
 from datetime import datetime
 from ..components.appbar import MyAppBar
-from ..services.animals import AnimalService
+from ..services.walks import WalksService
 import asyncio
 
 
 async def tablepage(page, animal, back=None):
     rows = []
     page.clean()
+    animal['walks'] = (await WalksService.get_walks(animal['id'])).json()
     for i in range(len(animal['walks'])):
         a = datetime.strptime(animal['walks'][i]['date'], '%Y-%m-%dT%H:%M:%S.%f')
         rows.append(ft.DataRow(cells=[ft.DataCell(ft.Text(datetime.strftime(a, '%d.%m %H:%M'))),
                                            ft.DataCell(ft.Text(animal['walks'][i]['duration'])),
-                                                       ft.DataCell(ft.Text(animal['walks'][i]['user_id'])),]))
+                                                       ft.DataCell(ft.Text(animal['walks'][i]['user']['name'])),]))
     bar = MyAppBar(title='Расписание', back=back)
     def choose_time(e):
         b = dat.value.split(' ')

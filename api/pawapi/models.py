@@ -13,9 +13,10 @@ intpk = Annotated[int, mapped_column(primary_key=True)]
 class User(Base, CRUD):
     __tablename__ = "user"
     id: Mapped[intpk]
-    name: Mapped[str]
+    name: Mapped[str] = mapped_column(unique=True)
+    phone: Mapped[str | None]
     role: Mapped[Role]
-    walks: Mapped[list["Walk"]] = relationship(lazy='joined')
+    walks: Mapped[list["Walk"]] = relationship()
 
 
 class Walk(Base, CRUD):
@@ -25,8 +26,14 @@ class Walk(Base, CRUD):
     duration: Mapped[int]
     animal_id: Mapped[int] = mapped_column(ForeignKey("animal.id"))
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
-    animal: Mapped["Animal"] = relationship(back_populates='walks', lazy='joined')
-    user: Mapped["User"] = relationship(back_populates='walks', lazy='joined')
+    animal: Mapped["Animal"] = relationship(back_populates='walks')
+    user: Mapped["User"] = relationship(back_populates='walks')
+
+    @classmethod
+    async def all(cls):
+        async with session_factory() as session:
+            stmt = select(cls).join(Animal, cls.animal_id == Animal.id)
+            return (await session.execute(stmt)).unique().scalars().all()
 
 
 class Animal(Base, CRUD):
@@ -41,14 +48,12 @@ class Animal(Base, CRUD):
     last_donation: Mapped[datetime | None]
     food_donated: Mapped[int | None] = mapped_column(default=0)
     food_daily: Mapped[int | None] = mapped_column(default=500)
-    walks: Mapped[list["Walk"]] = relationship(lazy='joined')
+    walks: Mapped[list["Walk"]] = relationship()
 
     @classmethod
     async def all(cls):
         async with session_factory() as session:
             stmt = (
                 select(cls)
-                .options(selectinload(cls.walks))
-                .limit(10)
             )
             return (await session.execute(stmt)).unique().scalars().all()

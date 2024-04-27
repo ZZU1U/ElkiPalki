@@ -11,6 +11,11 @@ class CRUD:
     def __repr__(self):
         return f'<{self.__class__.__name__} {self.id}>'
 
+    @classmethod
+    async def get(cls, id: int):
+        async with session_factory() as session:
+            return session.get(cls, id)
+
     @staticmethod
     async def add(model):
         async with session_factory() as session:

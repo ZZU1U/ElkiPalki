@@ -3,9 +3,9 @@ import asyncio
 from flet import ListView, Column
 
 from pawapp.components.animal import Animal
-from pawapp.services.animals import AnimalSerice
+from pawapp.services.animals import AnimalService
 
 
 async def AnimalsView():
-    animals = (await AnimalSerice.get_animals()).json()
-    return ListView(map(lambda animal: Animal(animal), animals), spacing=10)
+    animals = (await AnimalService.get_animals()).json()
+    return ListView(list(map(lambda animal: Animal(animal), animals)), spacing=10)

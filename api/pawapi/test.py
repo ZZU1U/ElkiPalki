@@ -1,4 +1,4 @@
-from .models import User, Animal
+from .models import User, Animal, Role
 
 
 animals = [
@@ -24,7 +24,15 @@ animals = [
     {'name': 'Toby', 'species': 'Rabbit', 'age': 7, 'description': 'friendly fellow', 'image': 'https://cdn.britannica.com/20/194520-050-DCAE62F1/New-World-Sylvilagus-cottontail-rabbits.jpg'},
 ]
 
+users = [
+    {'name': 'NOTANADMIN', 'role': Role.admin},
+    {'name': 'ADMIN', 'role': Role.user},
+    {'name': 'volunteer', 'role': Role.volunteer},
+]
+
 
 async def test():
     for animal in map(lambda a: Animal(**a), animals):
         await Animal.add(animal)
+    for user in users:
+        await User.add(User(**user))

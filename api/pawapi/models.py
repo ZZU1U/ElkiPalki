@@ -14,7 +14,7 @@ class User(Base, CRUD):
     __tablename__ = "user"
     id: Mapped[intpk]
     name: Mapped[str]
-    role: Mapped[Role] = mapped_column()
+    role: Mapped[Role]
     walks: Mapped[list["Walk"]] = relationship(lazy='joined')
 
 
@@ -42,4 +42,3 @@ class Walk(Base, CRUD):
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
     animal: Mapped["Animal"] = relationship(back_populates='walks', lazy='joined')
     user: Mapped["User"] = relationship(back_populates='walks', lazy='joined')
-

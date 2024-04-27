@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .animals.router import router as animals_router
+from .users.router import router as users_router
 from .database import create_tables
 from .test import test
 
@@ -17,6 +18,7 @@ app = FastAPI(
     title="Paw API",
 )
 app.include_router(animals_router)
+app.include_router(users_router)
 
 origins = ["*"]
 

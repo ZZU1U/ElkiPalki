@@ -4,6 +4,11 @@ from httpx import AsyncClient
 
 class WalksService:
     @staticmethod
-    async def get_walks(animal_id: int):
+    async def get_walks_for_animal(animal_id: int):
         async with AsyncClient() as client:
             return await client.get(f'{os.environ.get("server_url")}/walks/get', params={"animal_id": animal_id})
+
+    @staticmethod
+    async def get_all():
+        async with AsyncClient() as client:
+            return await client.get(f'{os.environ.get("server_url")}/walks/all')

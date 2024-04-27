@@ -14,6 +14,7 @@ async def is_admin(name: str):
         query = select(User).where(User.name == name)
         result = await session.execute(query)
         result = result.unique().one_or_none()
+        print(result)
         return result
 
 

@@ -3,11 +3,14 @@ import datetime as dt
 from datetime import datetime
 from ..components.appbar import MyAppBar
 from ..services.animals import AnimalService
+from ..services.walks import WalksService
 
 
 async def tablepageadmin(page, back=None):
     rows = []
     page.clean()
+    all_walks = (await WalksService.get_all()).json()
+    print(all_walks)
     animals = (await AnimalService.get_animals()).json()
     for animal in animals:
         for i in range(len(animal['walks'])):

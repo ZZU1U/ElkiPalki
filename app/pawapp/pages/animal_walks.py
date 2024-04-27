@@ -10,7 +10,7 @@ import asyncio
 async def tablepage(page, animal, back=None):
     rows = []
     page.clean()
-    animal['walks'] = (await WalksService.get_walks(animal['id'])).json()
+    animal['walks'] = (await WalksService.get_walks_for_animal(animal['id'])).json()
     for i in range(len(animal['walks'])):
         a = datetime.strptime(animal['walks'][i]['date'], '%Y-%m-%dT%H:%M:%S.%f')
         rows.append(ft.DataRow(cells=[ft.DataCell(ft.Text(datetime.strftime(a, '%d.%m %H:%M'))),

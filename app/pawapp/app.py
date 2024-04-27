@@ -72,7 +72,7 @@ class App:
 
         def admin_login(e):
             if asyncio.run(AdminService.is_admin(self.admin_name.value)):
-                write_settings(role='admin')
+                write_settings(role='ADMIN')
                 page.close_dialog()
                 page.update()
                 asyncio.run(AdminPage(page, self.logout))

@@ -6,7 +6,7 @@ from ..services.animals import AnimalService
 import asyncio
 
 
-async def tablepage(page: ft.Page, back: Callable):
+async def tablepage(page, back=None):
     rows = []
     page.clean()
     animals = (await AnimalService.get_animals()).json()
@@ -16,7 +16,7 @@ async def tablepage(page: ft.Page, back: Callable):
             rows.append(ft.DataRow(cells=[ft.DataCell(ft.Text(animal['walks'][i]['date_start'])),
                                                ft.DataCell(ft.Text(animal['walks'][i]['duration'])),
                                                            ft.DataCell(ft.Text(animal['walks'][i]['person_id']))]))
-    bar = MyAppBar(title='Расписание')
+    bar = MyAppBar(title='Расписание', back=back)
     table = ft.DataTable(columns=[
                 ft.DataColumn(ft.Text("Дата")),
                 ft.DataColumn(ft.Text("Время")),

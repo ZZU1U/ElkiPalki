@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .animals.router import router as animals_router
 from .users.router import router as users_router
+from .walks.router import router as walks_router
 from .database import create_tables
 from .test import test
 
@@ -19,6 +20,7 @@ app = FastAPI(
 )
 app.include_router(animals_router)
 app.include_router(users_router)
+app.include_router(walks_router)
 
 origins = ["*"]
 

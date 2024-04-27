@@ -1,12 +1,10 @@
-from datetime import datetime
 from pydantic import BaseModel
-from typing import Any
 from pawapi.enums import Role
 
 
 class UserBase(BaseModel):
     name: str
-    role: Role
+    role: Role | None = Role.user
 
 
 class UserRead(UserBase):

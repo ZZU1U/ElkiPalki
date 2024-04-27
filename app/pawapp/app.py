@@ -77,6 +77,7 @@ class App:
                 write_settings(role='ADMIN')
                 page.close_dialog()
                 page.update()
+                page.dialog.open = False
                 asyncio.run(AdminPage(page, self.logout))
             else:
                 self.admin_error.value = 'You are not admin'

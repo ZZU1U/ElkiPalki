@@ -38,8 +38,27 @@ class App:
             page.login(provider)
 
         def guest_click(e):
-            write_settings(role='guest')
-            asyncio.run(AnimalsView(page, self.logout))
+            def user_submit(e):
+                if phone.value != '' and name.value != '':
+                    dlg.open = False
+                    user = {'name': name.value, 'google_data': phone.value}
+                    write_settings(role='guest')
+                    asyncio.run(AnimalsView(page, self.logout))
+                else:
+                    if phone.value == '' and name.value == '':
+                        phone.value = 'Непрвильный номер'
+                        name.value = 'Неправильное имя'
+                    elif phone.value == '':
+                        phone.value = 'Непрвильный номер'
+                    else:
+                        name.value = 'Неправильное имя'
+            name = ft.TextField(label='Введите имя', width=100)
+            phone = ft.TextField(label='Введите номер телефона', width=100)
+            dlg = ft.AlertDialog(content=ft.Column(controls=[
+                name, phone,
+                ft.ElevatedButton('Подтвердить', on_click=user_submit)]
+            ), open=True)
+            page.dialog = dlg
             page.update()
 
         def admin_login(e):

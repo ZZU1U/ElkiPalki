@@ -1,7 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel
 from typing import Any
-from .enums import AnimalStatus
+from pawapi.enums import AnimalStatus
 
 
 class AnimalBase(BaseModel):

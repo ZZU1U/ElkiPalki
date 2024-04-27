@@ -5,4 +5,4 @@ import asyncio
 import flet as ft
 from pawapp.app import App
 
-asyncio.run(ft.app_async(App, port=8550, view=ft.AppView.WEB_BROWSER))
+asyncio.run(ft.app_async(App, port=8550, view=ft.AppView.FLET_APP_WEB))

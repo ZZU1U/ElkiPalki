@@ -13,7 +13,7 @@ in-project = true
 python = "^3.10"
 flet = "^0.22.0"
 python-dotenv = "^1.0.1"
-python-for-android = {git = "https://github.com/flet-dev/python-for-android.git", rev = "3.11.6"}
+geocoder = "^1.38.1"
 
 
 [build-system]

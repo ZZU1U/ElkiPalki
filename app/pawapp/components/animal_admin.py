@@ -1,6 +1,6 @@
 import flet as ft
 import asyncio
-from ..pages.about_animal import about_animal
+from ..pages.edit_animal import edit_animal
 from flet import (
     Container,
     Text,
@@ -41,7 +41,7 @@ class AnimalAdmin(Container):
                     )
                 ],
             ),
-            on_click=lambda e: asyncio.run(about_animal(animal=data, **kwargs)),
+            on_click=lambda e: asyncio.run(edit_animal(animal=data, **kwargs)),
             border_radius=30,
             margin=10,
         )

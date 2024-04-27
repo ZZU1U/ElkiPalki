@@ -14,7 +14,6 @@ class AnimalBase(BaseModel):
     last_donation: datetime | None
     food_donated: int | None
     food_daily: int | None
-    walks: Any  # TODO should probably change this
 
 
 class AnimalChange(AnimalBase):

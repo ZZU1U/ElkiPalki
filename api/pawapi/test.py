@@ -21,8 +21,9 @@ users = [
 ]
 
 async def test():
-    for animal in map(lambda a: Animal(**a), animals):
-        await Animal.add(animal)
-        await Walk.add(Walk(date=datetime.now(), duration=30, animal=animal, user=User(**users[0])))
     for user in users:
         await User.add(User(**user))
+    me = (await User.all())[0]
+    for animal in map(lambda a: Animal(**a), animals):
+        await Animal.add(animal)
+        await Walk.add(Walk(date=datetime.now(), duration=30, animal=animal, user=me))

@@ -19,8 +19,8 @@ from flet import (
 )
 from .pages.animals import AnimalsView
 from .pages.admin import AdminPage
-from pawapp.services.settings import write_settings, get_settings
-from pawapp.services.admin import AdminService
+from .services.settings import write_settings, get_settings
+from .services.admin import AdminService
 
 
 load_dotenv(find_dotenv())
@@ -138,6 +138,7 @@ class App:
     def __init__(self, page: Page):
         asyncio.run(self.init(page))
         page.scroll = ft.ScrollMode.AUTO
+        page.padding = ft.padding.all(0)
 
         self.page = page
         page.window_width = 400

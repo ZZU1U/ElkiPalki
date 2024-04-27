@@ -18,4 +18,4 @@ class CRUD:
     @classmethod
     async def all(cls):
         async with session_factory() as session:
-            return (await session.execute(select(cls))).scalars().all()
+            return (await session.execute(select(cls))).unique().scalars().all()

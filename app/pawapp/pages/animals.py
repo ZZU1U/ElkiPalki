@@ -1,17 +1,11 @@
 import httpx
 import asyncio
-from flet import ListView
+from flet import ListView, Column
+
+from pawapp.components.animal import Animal
 from pawapp.services.animals import AnimalSerice
 
 
-class AnimalsView(ListView):
-    async
-        asyncio.run(self._init())
-    async def _init(self):
-        animals = await AnimalSerice.get_animals()
-        print(animals)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        asyncio.run(self._init())
-
+async def AnimalsView():
+    animals = (await AnimalSerice.get_animals()).json()
+    return ListView(map(lambda animal: Animal(animal), animals), spacing=10)

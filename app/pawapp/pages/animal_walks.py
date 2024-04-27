@@ -1,19 +1,22 @@
 from typing import Callable
 import flet as ft
 import datetime as dt
-animal = {'walks': [
-        {'date_start': dt.date(1941, 12, 1), 'duration': 30, 'person_id': 12}
-    ]}
-def tablepage(page: ft.Page, back: Callable):
+from ..components.appbar import MyAppBar
+from ..services.animals import AnimalService
+import asyncio
+
+
+async def tablepage(page: ft.Page, back: Callable):
     rows = []
-    for i in range(len(animal['walks'])):
-        rows.append(ft.DataRow(cells=[ft.DataCell(ft.Text(animal['walks'][i]['date_start'])),
-                                           ft.DataCell(ft.Text(animal['walks'][i]['duration'])),
-                                                       ft.DataCell(ft.Text(animal['walks'][i]['person_id']))]))
-    bar = ft.AppBar(leading=ft.IconButton(ft.icons.ARROW_BACK, bgcolor='#FFBB36'),
-                    title=ft.Text('Расписание'), bgcolor='Orange',
-                    center_title=True
-                    )
+    page.clean()
+    animals = (await AnimalService.get_animals()).json()
+    print(animals)
+    for animal in animals:
+        for i in range(len(animal['walks'])):
+            rows.append(ft.DataRow(cells=[ft.DataCell(ft.Text(animal['walks'][i]['date_start'])),
+                                               ft.DataCell(ft.Text(animal['walks'][i]['duration'])),
+                                                           ft.DataCell(ft.Text(animal['walks'][i]['person_id']))]))
+    bar = MyAppBar(title='Расписание')
     table = ft.DataTable(columns=[
                 ft.DataColumn(ft.Text("Дата")),
                 ft.DataColumn(ft.Text("Время")),

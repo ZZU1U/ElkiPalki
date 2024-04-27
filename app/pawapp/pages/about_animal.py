@@ -1,7 +1,8 @@
 from flet import *
 from pawapp import styles
 from ..components.appbar import MyAppBar
-
+from ..pages.animal_walks import tablepage
+import asyncio
 
 STATUSES = {
     'AVAILABLE': 'Рад встрече с человеком',
@@ -34,7 +35,7 @@ async def about_animal(page: Page = None, animal: dict = None, back=None):
             Column(controls=[
                 FilledButton('Взять опекунство', width=200, style=styles.button_style,),
                 FilledButton('Помочь кормом', width=200, style=styles.button_style),
-                FilledButton('Прогуляться за лапку', width=200, style=styles.button_style),
+                FilledButton('Прогуляться за лапку', width=200, style=styles.button_style, on_click=lambda e: asyncio.run(tablepage(page, about_animal))),
             ], spacing=20, horizontal_alignment=CrossAxisAlignment.CENTER, width=float('inf')),
         ],
     ))

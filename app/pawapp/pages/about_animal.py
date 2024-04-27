@@ -3,6 +3,7 @@ from pawapp import styles
 from ..components.appbar import MyAppBar
 from ..pages.animal_walks import tablepage
 import asyncio
+from ..pages.eat import donate_eat
 
 STATUSES = {
     'AVAILABLE': 'Рад встрече с человеком',
@@ -18,7 +19,8 @@ async def about_animal(page: Page = None, animal: dict = None, back=None):
 
     async def newp(e):
         await tablepage(page, animal, back=lambda e: asyncio.run(about_animal(page, animal, back)))
-
+    async def donate(e):
+        await donate_eat(page, animal, back=lambda e: asyncio.run(about_animal(page, animal, back)))
     page.add(Column(
         controls=[
             Image(
@@ -38,7 +40,7 @@ async def about_animal(page: Page = None, animal: dict = None, back=None):
             Container(height=100),
             Column(controls=[
                 FilledButton('Взять опекунство', width=200, style=styles.button_style,),
-                FilledButton('Помочь кормом', width=200, style=styles.button_style),
+                FilledButton('Помочь кормом', width=200, style=styles.button_style, on_click=donate),
                 FilledButton('Прогуляться за лапку', width=200, style=styles.button_style, on_click=newp),
             ], spacing=20, horizontal_alignment=CrossAxisAlignment.CENTER, width=float('inf')),
         ],

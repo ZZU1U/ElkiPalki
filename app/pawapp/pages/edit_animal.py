@@ -16,7 +16,8 @@ async def edit_animal(page: Page = None, animal: dict = None, back=None):
             animal["status"] = 'UNAVAILABLE'
         animal['name'] = name.value
         animal['species'] = spicies.value
-
+        animal['food_daily'] = food_daily.value
+        animal['image'] = image.value
     dd = Dropdown(f'{animal["status"]}',
                      width=400,
                      options=[
@@ -31,6 +32,9 @@ async def edit_animal(page: Page = None, animal: dict = None, back=None):
     spicies = TextField(f'{animal["species"]}', label='Вид/порода')
     age = TextField(f'{animal["age"]}', label='Возраст')
     description = TextField(f'{animal["description"]}', multiline=True, label='Описание')
+    #food_donated = TextField(f'{animal["food_donated"]}', label='Пожертвовано еды')
+    food_daily = TextField(f'{animal["food_daily"]}', label='Дневная норма')
+    image = TextField(f'{animal["image"]}', label='Ссылка на фото')
     page.add(Column(
         controls=[
             Image(
@@ -43,6 +47,9 @@ async def edit_animal(page: Page = None, animal: dict = None, back=None):
             name,
             spicies,
             age,
+            description,
+            food_daily,
+            image,
             FilledButton('Подтвердить', on_click=clicked_submit)
         ]
     ))

@@ -1,4 +1,5 @@
 from sqlalchemy import select
+from sqlalchemy.orm import joinedload
 from .database import session_factory
 
 
@@ -19,12 +20,15 @@ class CRUD:
     @classmethod
     async def all(cls):
         async with session_factory() as session:
-            return (await session.execute(select(cls))).unique().scalars().all()
+            stmt = select(cls)
+            return (await session.execute(stmt)).unique().scalars().all()
 
     @classmethod
     async def change(cls, obj):
         async with session_factory() as session:
-            stmt = select(cls).where(cls.id == obj.id)
-            old_obj = await session.execute(stmt)
-            print(old_obj.unique().scalar())
-            return old_obj.unique().scalar()
+            old_obj = await session.get(cls, obj.id)
+            for key, value in obj.__dict__.items():
+                setattr(old_obj, key, value)
+            await session.commit()
+            print(old_obj.__dict__)
+            return old_obj

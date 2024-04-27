@@ -7,7 +7,6 @@ from pawapi.enums import Role
 class UserBase(BaseModel):
     name: str
     role: Role
-    walks: Any
 
 
 class UserRead(UserBase):

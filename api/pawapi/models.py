@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import Annotated
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-from .database import Base
+from sqlalchemy import ForeignKey, select
+from sqlalchemy.orm import Mapped, mapped_column, relationship, selectinload
+from .database import Base, session_factory
 from .crud import CRUD
 from .enums import Role, AnimalStatus
 
@@ -16,6 +16,17 @@ class User(Base, CRUD):
     name: Mapped[str]
     role: Mapped[Role]
     walks: Mapped[list["Walk"]] = relationship(lazy='joined')
+
+
+class Walk(Base, CRUD):
+    __tablename__ = "walk"
+    id: Mapped[intpk]
+    date: Mapped[datetime]
+    duration: Mapped[int]
+    animal_id: Mapped[int] = mapped_column(ForeignKey("animal.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+    animal: Mapped["Animal"] = relationship(back_populates='walks', lazy='joined')
+    user: Mapped["User"] = relationship(back_populates='walks', lazy='joined')
 
 
 class Animal(Base, CRUD):
@@ -32,13 +43,12 @@ class Animal(Base, CRUD):
     food_daily: Mapped[int | None] = mapped_column(default=500)
     walks: Mapped[list["Walk"]] = relationship(lazy='joined')
 
-
-class Walk(Base, CRUD):
-    __tablename__ = "walk"
-    id: Mapped[intpk]
-    date: Mapped[datetime]
-    duration: Mapped[int]
-    animal_id: Mapped[int] = mapped_column(ForeignKey("animal.id"))
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
-    animal: Mapped["Animal"] = relationship(back_populates='walks', lazy='joined')
-    user: Mapped["User"] = relationship(back_populates='walks', lazy='joined')
+    @classmethod
+    async def all(cls):
+        async with session_factory() as session:
+            stmt = (
+                select(cls)
+                .options(selectinload(cls.walks))
+                .limit(10)
+            )
+            return (await session.execute(stmt)).unique().scalars().all()

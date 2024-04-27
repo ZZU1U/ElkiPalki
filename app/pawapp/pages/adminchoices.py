@@ -9,7 +9,6 @@ import asyncio
 async def adminchoice(page: ft.Page, back=None):
     page.clean()
     animals = (await AnimalService.get_animals()).json()
-    print(animals)
     page.appbar = MyAppBar(title='Панель админа', back=back)
     page.appbar.center_title = True
     lv = ft.ListView()

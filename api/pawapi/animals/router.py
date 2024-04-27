@@ -1,6 +1,9 @@
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from pawapi.models import Animal
 from .ormschemas import AnimalRelRead, AnimalChange, AnimalRead
-from fastapi import APIRouter
+from ..database import get_session
+from fastapi import APIRouter, Depends
 
 router = APIRouter(prefix='/animals', tags=['animals'])
 

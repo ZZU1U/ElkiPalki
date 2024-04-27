@@ -3,13 +3,14 @@ from pawapi.enums import Role
 
 
 class UserBase(BaseModel):
+    phone: str | None = None
     name: str
-    role: Role | None = Role.user
 
 
 class UserRead(UserBase):
     id: int
+    role: Role
 
 
 class UserWrite(UserBase):
-    pass
+    role: Role | None = Role.user

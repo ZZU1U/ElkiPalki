@@ -16,7 +16,7 @@ class User(Base, CRUD):
     name: Mapped[str] = mapped_column(unique=True)
     phone: Mapped[str | None]
     role: Mapped[Role]
-    walks: Mapped[list["Walk"]] = relationship()
+    walks: Mapped[list["Walk"]] = relationship(lazy='selectin')
 
 
 class Walk(Base, CRUD):
@@ -26,8 +26,8 @@ class Walk(Base, CRUD):
     duration: Mapped[int]
     animal_id: Mapped[int] = mapped_column(ForeignKey("animal.id"))
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
-    animal: Mapped["Animal"] = relationship(back_populates='walks')
-    user: Mapped["User"] = relationship(back_populates='walks')
+    animal: Mapped["Animal"] = relationship(back_populates='walks', lazy='selectin')
+    user: Mapped["User"] = relationship(back_populates='walks', lazy='selectin')
 
     @classmethod
     async def all(cls):
@@ -48,7 +48,7 @@ class Animal(Base, CRUD):
     last_donation: Mapped[datetime | None]
     food_donated: Mapped[int | None] = mapped_column(default=0)
     food_daily: Mapped[int | None] = mapped_column(default=500)
-    walks: Mapped[list["Walk"]] = relationship()
+    walks: Mapped[list["Walk"]] = relationship(lazy='selectin')
 
     @classmethod
     async def all(cls):

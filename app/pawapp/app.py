@@ -52,8 +52,9 @@ class App:
                         phone.value = 'Непрвильный номер'
                     else:
                         name.value = 'Неправильное имя'
-            name = ft.TextField(label='Введите имя', width=100)
-            phone = ft.TextField(label='Введите номер телефона', width=100)
+                page.update()
+            name = ft.TextField(label='Введите имя', width=300)
+            phone = ft.TextField(label='Введите номер телефона', width=300)
             dlg = ft.AlertDialog(content=ft.Column(controls=[
                 name, phone,
                 ft.ElevatedButton('Подтвердить', on_click=user_submit)]
@@ -146,7 +147,7 @@ class App:
 
         settings = get_settings()
 
-        if settings['token'] is None:
+        if settings.get('role', None) is None:
             self.auth(page)
         else:
             if settings['id'] == -1:

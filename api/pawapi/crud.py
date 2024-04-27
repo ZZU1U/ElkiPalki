@@ -32,8 +32,10 @@ class CRUD:
     async def change(cls, obj):
         async with session_factory() as session:
             old_obj = await session.get(cls, obj.id)
+
             for key, value in obj.__dict__.items():
                 setattr(old_obj, key, value)
+
             await session.commit()
-            print(old_obj.__dict__)
-            return old_obj
+
+        return obj

@@ -13,5 +13,7 @@ class AdminService:
     @staticmethod
     async def change_animal(animal: dict) -> dict:
         async with AsyncClient() as client:
+            print(animal)
             response = await client.post(f'{os.environ.get("server_url")}/animals/change', json=animal)
+            print(response.json())
             return response.json()

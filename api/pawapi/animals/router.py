@@ -16,4 +16,6 @@ async def get_animals() -> list[AnimalRead]:
 
 @router.post("/change")
 async def change_animal(animal: AnimalChange) -> AnimalRead:
-    return await Animal.change(animal)
+    res = await Animal.change(animal)
+    print(res)
+    return AnimalRead.model_validate(res, from_attributes=True)

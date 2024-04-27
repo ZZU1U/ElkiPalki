@@ -6,6 +6,9 @@ authors = ["glrb", "NikolayNE", "StepanAdskiy"]
 readme = "README.md"
 package-mode = false
 
+[virtualenvs]
+in-project = true
+
 [tool.poetry.dependencies]
 python = "^3.10"
 flet = "^0.22.0"

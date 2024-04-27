@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Annotated
-from sqlalchemy import ForeignKey, select
+from sqlalchemy import ForeignKey, select, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship, selectinload
 from .database import Base, session_factory
 from .crud import CRUD
@@ -22,7 +22,7 @@ class User(Base, CRUD):
 class Walk(Base, CRUD):
     __tablename__ = "walk"
     id: Mapped[intpk]
-    date: Mapped[datetime]
+    date: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     duration: Mapped[int]
     animal_id: Mapped[int] = mapped_column(ForeignKey("animal.id"))
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))

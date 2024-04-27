@@ -4,7 +4,7 @@ from pawapi.database import session_factory, get_session
 from fastapi import APIRouter, Depends
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload, Session
-from .ormschemas import WalkRelRead, WalkRead
+from .ormschemas import WalkRelRead, WalkRead, WalkWrite
 
 router = APIRouter(prefix='/walks', tags=['walks'])
 
@@ -24,3 +24,10 @@ async def get_all_walks(session: AsyncSession = Depends(get_session)) -> list[Wa
     res = (await session.execute(query)).unique().scalars().all()
     res = [WalkRelRead.model_validate(row, from_attributes=True) for row in res]
     return res
+
+
+@router.post('/add')
+async def add_walk(walk: WalkWrite, session: AsyncSession = Depends(get_session)):
+    session.add(Walk(**walk.dict()))
+    await session.commit()
+    return walk

@@ -1,10 +1,11 @@
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from pawapi.database import session_factory, get_session
 from pawapi.enums import Role
 from pawapi.models import User
 from .schemas import UserRead, UserWrite
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 
 router = APIRouter(prefix='/users', tags=['users'])
 
@@ -22,7 +23,13 @@ async def get(name: str, session: AsyncSession = Depends(get_session)):
 @router.post("/create")
 async def create_user(user: UserWrite, session: AsyncSession = Depends(get_session)):
     u = User(**user.dict())
-    session.add(u)
-    await session.commit()
-    print(u)
-    return u
+    try:
+        session.add(u)
+        await session.commit()
+        return user
+    except IntegrityError as err:
+        raise HTTPException(detail='User already exists', status_code=409)
+
+@router.get('/all')
+async def all_users(session: AsyncSession = Depends(get_session)):
+    return User.all()

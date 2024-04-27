@@ -12,3 +12,6 @@ class WalkBase(BaseModel):
 
 class WalkRead(WalkBase):
     id: int
+
+class WalkWrite(WalkBase):
+    pass

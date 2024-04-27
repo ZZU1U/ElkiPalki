@@ -13,7 +13,7 @@ async def tablepageadmin(page, back=None):
 
     animals = (await AnimalService.get_animals()).json()
     for i in range(len(all_walks)):
-        a = datetime.strptime(all_walks[i]['date'], '%Y-%m-%dT%H:%M:%S.%f')
+        a = datetime.fromisoformat(all_walks[i]['date'])
         rows.append(ft.DataRow(cells=[ft.DataCell(ft.Text(datetime.strftime(a, '%d.%m %H:%M'))),
                                            ft.DataCell(ft.Text(all_walks[i]['duration'])),
                                                        ft.DataCell(ft.Text(all_walks[i]['user']['name'])),

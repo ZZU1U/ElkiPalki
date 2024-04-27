@@ -45,20 +45,23 @@ class App:
             def user_submit(e):
                 result = bool(re.match(
                     r'^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$', phone.value))
-                print(result)
                 if result and name.value != '':
                     dlg.open = False
-                    write_settings(role='guest', name=name.value, phone=phone.value)
+                    write_settings(role='guest', name=name.value)
+                    res = asyncio.run(UserService.add_user({'role': 'USER', 'name': name.value, 'phone': phone.value})).json()
+                    print(res)
                     asyncio.run(AnimalsView(page, self.logout))
-                else:
-                    if not result and name.value == '':
-                        phone.value = 'Непрвильный номер'
-                        name.value = 'Неправильное имя'
-                    elif not result:
-                        phone.value = 'Непрвильный номер'
-                    else:
-                        name.value = 'Неправильное имя'
+
+                if not result:
+                    phone.value = ''
+                    phone.hint_text = 'Неправильный номер'
+
+                if name.value == '':
+                    name.value = ''
+                    name.hint_text = 'Неправильное имя'
+
                 page.update()
+
             name = ft.TextField(label='Введите имя', width=300)
             phone = ft.TextField(label='Введите номер телефона', width=300)
             dlg = ft.AlertDialog(content=ft.Column(controls=[
@@ -74,7 +77,7 @@ class App:
             user = asyncio.run(UserService.get_by_name(self.admin_name.value)).json()
             print(user)
             if user is not None and user.get('role') == 'ADMIN':
-                write_settings(role='ADMIN')
+                write_settings(role='ADMIN', name=self.admin_name.value)
                 page.close_dialog()
                 page.update()
                 page.dialog.open = False

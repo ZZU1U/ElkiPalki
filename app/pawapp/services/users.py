@@ -6,7 +6,7 @@ class UserService:
     @staticmethod
     async def add_user(user: dict):
         async with AsyncClient() as client:
-            return await client.post(f'{os.environ.get("server_url")}/users/create', data=user)
+            return await client.post(f'{os.environ.get("server_url")}/users/create', json=user)
 
     @staticmethod
     async def get_by_name(name: str):

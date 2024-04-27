@@ -8,6 +8,23 @@ from ..services.animals import AnimalService
 
 async def AnimalsView(page: Page, back=None):
     page.clean()
+
     page.appbar = MyAppBar('Наши животные', back=back)
+
     animals = (await AnimalService.get_animals()).json()
-    page.add(ListView(list(map(lambda animal: Animal(animal, page=page, back=(lambda e: asyncio.run(AnimalsView(page, back)))), animals)), spacing=10))
+
+    page.add(
+        ListView(
+            list(
+                map(
+                    lambda animal: Animal(
+                        animal,
+                        page=page,
+                        back=(lambda e: asyncio.run(AnimalsView(page, back)))
+                    ),
+                    animals
+                )
+            ),
+            spacing=10
+        )
+    )

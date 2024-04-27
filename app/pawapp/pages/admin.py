@@ -6,7 +6,7 @@ from ..pages.adminchoices import adminchoice
 
 async def AdminPage(page: Page, back=None):
     def runchoice(e):
-        asyncio.run(adminchoice(page, AdminPage))
+        asyncio.run(adminchoice(page, lambda e: asyncio.run(AdminPage(page, back))))
         page.update()
     page.clean()
     page.appbar = MyAppBar(title='Панель админа', back=back)

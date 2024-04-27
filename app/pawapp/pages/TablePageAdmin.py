@@ -12,13 +12,12 @@ async def tablepageadmin(page, back=None):
     all_walks = (await WalksService.get_all()).json()
     print(all_walks)
     animals = (await AnimalService.get_animals()).json()
-    for animal in animals:
-        for i in range(len(animal['walks'])):
-            a = datetime.strptime(animal['walks'][i]['date'], '%Y-%m-%dT%H:%M:%S.%f')
-            rows.append(ft.DataRow(cells=[ft.DataCell(ft.Text(datetime.strftime(a, '%d.%m %H:%M'))),
-                                               ft.DataCell(ft.Text(animal['walks'][i]['duration'])),
-                                                           ft.DataCell(ft.Text(animal['walks'][i]['user_id'])),
-                                                                       ft.DataCell(ft.Checkbox())]))
+    for i in range(len(all_walks)):
+        a = datetime.strptime(all_walks[i]['date'], '%Y-%m-%dT%H:%M:%S.%f')
+        rows.append(ft.DataRow(cells=[ft.DataCell(ft.Text(datetime.strftime(a, '%d.%m %H:%M'))),
+                                           ft.DataCell(ft.Text(all_walks[i]['duration'])),
+                                                       ft.DataCell(ft.Text(all_walks[i]['user']['name'])),
+                                                                   ft.DataCell(ft.Checkbox())]))
     bar = MyAppBar(title='Расписание', back=back)
     table = ft.DataTable(columns=[
                 ft.DataColumn(ft.Text("Дата")),

@@ -1,9 +1,9 @@
 import json
 
 
-def write_settings(token, id):
+def write_settings(**kwargs):
     with open('settings.json', 'w+') as f:
-        json.dump({'token': token, 'id': id}, f)
+        json.dump(kwargs, f)
 
 
 def get_settings():

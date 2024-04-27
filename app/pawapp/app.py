@@ -38,13 +38,13 @@ class App:
             page.login(provider)
 
         def guest_click(e):
-            write_settings('guest', 0)
+            write_settings(role='guest')
             asyncio.run(AnimalsView(page, self.logout))
             page.update()
 
         def admin_login(e):
             if asyncio.run(AdminService.is_admin(self.admin_name.value)):
-                write_settings('admin', -1)
+                write_settings(role='admin')
                 page.close_dialog()
                 page.update()
                 asyncio.run(AdminPage(page, self.logout))
@@ -83,7 +83,7 @@ class App:
             self.page.update()
 
         def on_login(e):
-            write_settings(page.auth.access_token, page.auth.user.id)
+            write_settings(access_token=page.auth.access_token, user_id=page.auth.user.id)
             asyncio.run(AnimalsView(page, self.logout))
             page.update()
 
@@ -116,7 +116,7 @@ class App:
         )
 
     def logout(self, e):
-        write_settings(None, None)
+        write_settings()
         self.auth(self.page)
         self.page.update()
 

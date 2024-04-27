@@ -32,6 +32,5 @@ class AnimalAdmin(Container):
                 ,
             ),
             on_click=lambda e: asyncio.run(edit_animal(animal=data, **kwargs)),
-            border_radius=30,
             margin=10,
         )

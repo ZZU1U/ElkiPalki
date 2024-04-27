@@ -1,5 +1,6 @@
 import asyncio
 import flet as ft
+import re
 import os
 from flet.auth.providers import GoogleOAuthProvider
 from dotenv import load_dotenv, find_dotenv
@@ -39,16 +40,18 @@ class App:
 
         def guest_click(e):
             def user_submit(e):
-                if phone.value != '' and name.value != '':
+                result = bool(re.match(
+                    r'^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$', phone.value))
+                print(result)
+                if result and name.value != '':
                     dlg.open = False
-                    user = {'name': name.value, 'google_data': phone.value}
-                    write_settings(role='guest')
+                    write_settings(role='guest', name=name.value, phone=phone.value)
                     asyncio.run(AnimalsView(page, self.logout))
                 else:
-                    if phone.value == '' and name.value == '':
+                    if not result and name.value == '':
                         phone.value = 'Непрвильный номер'
                         name.value = 'Неправильное имя'
-                    elif phone.value == '':
+                    elif not result:
                         phone.value = 'Непрвильный номер'
                     else:
                         name.value = 'Неправильное имя'

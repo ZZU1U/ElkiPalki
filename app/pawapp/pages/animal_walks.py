@@ -14,9 +14,9 @@ async def tablepage(page, back=None):
     print(animals)
     for animal in animals:
         for i in range(len(animal['walks'])):
-            rows.append(ft.DataRow(cells=[ft.DataCell(ft.Text(animal['walks'][i]['date_start'])),
+            rows.append(ft.DataRow(cells=[ft.DataCell(ft.Text(animal['walks'][i]['date'])),
                                                ft.DataCell(ft.Text(animal['walks'][i]['duration'])),
-                                                           ft.DataCell(ft.Text(animal['walks'][i]['person_id']))]))
+                                                           ft.DataCell(ft.Text(animal['walks'][i]['user_id']))]))
     bar = MyAppBar(title='Расписание', back=back)
     table = ft.DataTable(columns=[
                 ft.DataColumn(ft.Text("Дата")),

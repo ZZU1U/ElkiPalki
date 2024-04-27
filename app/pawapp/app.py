@@ -63,7 +63,8 @@ class App:
             phone = ft.TextField(label='Введите номер телефона', width=300)
             dlg = ft.AlertDialog(content=ft.Column(controls=[
                 name, phone,
-                ]
+                ],
+                tight=True
             ), actions=[ft.ElevatedButton('Подтвердить', on_click=user_submit),
                         ft.ElevatedButton('Отмена', on_click=cancel)], open=True)
             page.dialog = dlg

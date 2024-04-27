@@ -21,6 +21,7 @@ async def edit_animal(page: Page = None, animal: dict = None, back=None):
         animal['species'] = spicies.value
         animal['food_daily'] = food_daily.value
         animal['image'] = image.value
+        animal['age'] = age.value
         asyncio.run(AdminService.change_animal(animal))
 
     dd = Dropdown(f'{animal["status"]}',

@@ -44,9 +44,9 @@ async def about_animal(page: Page = None, animal: dict = None, back=None):
             ),
             Container(height=100),
             Column(controls=[
-                FilledButton('Взять опекунство', width=200, style=styles.button_style, on_click=opekun),
-                FilledButton('Помочь кормом', width=200, style=styles.button_style, on_click=donate),
-                FilledButton('Прогуляться за лапку', width=200, style=styles.button_style, on_click=newp),
+                FilledButton('Взять опекунство', width=200, style=styles.button_style, on_click=opekun, disabled=False if animal['status'] != 'UNAVAILABLE' else True),
+                FilledButton('Помочь кормом', width=200, style=styles.button_style, on_click=donate, disabled=False if animal['status'] != 'UNAVAILABLE' else True),
+                FilledButton('Прогуляться за лапку', width=200, style=styles.button_style, on_click=newp, disabled=False if animal['status'] != 'UNAVAILABLE' else True),
             ], spacing=20, horizontal_alignment=CrossAxisAlignment.CENTER, width=float('inf')),
         ],
     ))

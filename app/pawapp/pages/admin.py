@@ -4,8 +4,7 @@ from ..components.appbar import MyAppBar
 
 
 async def AdminPage(page: Page, back=None):
-    await page.clean_async()
-    print(page.dialog)
+    page.clean()
     page.appbar = MyAppBar(title='Панель админа', back=back)
     page.appbar.center_title = True
     btn1 = ft.FilledButton(text='Список прогулок',
@@ -21,5 +20,5 @@ async def AdminPage(page: Page, back=None):
                            height=45,
                            style=ft.ButtonStyle(bgcolor='#FA7800'))
     page.auto_scroll = False
-    await page.add_async(ft.Container(ft.Column(controls=[btn1, btn2, btn3], alignment=ft.MainAxisAlignment.CENTER,
+    page.add(ft.Container(ft.Column(controls=[btn1, btn2, btn3], alignment=ft.MainAxisAlignment.CENTER,
                                    horizontal_alignment=ft.CrossAxisAlignment.CENTER), width=float('inf'), height=600))

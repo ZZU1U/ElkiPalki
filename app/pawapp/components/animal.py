@@ -1,4 +1,6 @@
 import flet as ft
+import asyncio
+from ..pages.about_animal import about_animal
 from flet import (
     Container,
     Text,
@@ -6,15 +8,14 @@ from flet import (
     Row,
     Stack,
     LinearGradient,
-    Alignment
+    Alignment,
+    Page
 )
 
 
 class Animal(Container):
     def __init__(self, data: 'AnimalRead', *args, **kwargs):
         super().__init__(
-            *args,
-            **kwargs,
             image_fit=ft.ImageFit.FIT_WIDTH,
             image_src=data['image'],
             height=250,
@@ -22,13 +23,6 @@ class Animal(Container):
             alignment=ft.alignment.bottom_left,
             content=Stack(
                 [
-                    Text(
-                        f'{data["name"]}, {data["age"]}',
-                        size=30,
-                        color='#FFFFFF',
-                        text_align=ft.alignment.bottom_left,
-                        bgcolor='blue'
-                    ),
                     Container(gradient=LinearGradient(
                         begin=ft.alignment.top_center,
                         end=ft.alignment.bottom_center,
@@ -37,8 +31,17 @@ class Animal(Container):
                             '#FF000000',
                         ]
                     )),
+                    Text(
+                        f'{data["name"]}, {data["age"]} лет',
+                        size=30,
+                        color='#FFFFFF',
+                        text_align=ft.alignment.bottom_left,
+                        left=10,
+                        bottom=10,
+                    )
                 ],
             ),
+            on_click=lambda e: asyncio.run(about_animal(animal=data, **kwargs)),
             border_radius=30,
-            bgcolor='gray',
+            margin=10,
         )

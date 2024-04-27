@@ -1,7 +1,7 @@
 from flet import AppBar, IconButton, icons, Text
 
 
-def MyAppBar(title='Добрые руки', actions=None, back=None):
+def MyAppBar(title='Добрые руки', actions=None, bgcolor='orange', back=None, **kwargs):
     if actions is None:
         actions = []
 
@@ -9,5 +9,7 @@ def MyAppBar(title='Добрые руки', actions=None, back=None):
                 leading=IconButton(icon=icons.ARROW_BACK, icon_size=20, on_click=back),
                 leading_width=40,
                 title=Text(title),
-                actions=actions
+                actions=actions,
+                bgcolor=bgcolor,
+                **kwargs
             )

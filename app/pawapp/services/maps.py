@@ -40,7 +40,7 @@ def get_shops_near(lat: float, lng: float):
                     "radius": 50.0
                 }
             }
-        }# TODO add headers
+        }
         #https://developers.google.com/maps/documentation/places/web-service/nearby-search?hl=ru
     )
 

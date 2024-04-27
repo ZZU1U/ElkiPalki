@@ -1,10 +1,13 @@
+import asyncio
 from flet import *
 from ..components.appbar import MyAppBar
+from ..services.admin import AdminService
 
 
 async def edit_animal(page: Page = None, animal: dict = None, back=None):
     page.clean()
     page.appbar = MyAppBar(title=animal['name'], back=back, bgcolor='#00000000')
+
     def clicked_submit(e):
         if dd.value == 'Рад встрече с человеком':
             animal["status"] = 'AVAILABLE'
@@ -18,6 +21,7 @@ async def edit_animal(page: Page = None, animal: dict = None, back=None):
         animal['species'] = spicies.value
         animal['food_daily'] = food_daily.value
         animal['image'] = image.value
+        asyncio.run(AdminService.change_animal(animal))
 
     dd = Dropdown(f'{animal["status"]}',
                      width=400,
@@ -54,4 +58,5 @@ async def edit_animal(page: Page = None, animal: dict = None, back=None):
             FilledButton('Подтвердить', on_click=clicked_submit)
         ]
     ), width=float('inf'), margin=15))
+    print(animal)
     page.update()

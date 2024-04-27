@@ -17,6 +17,10 @@ class AnimalBase(BaseModel):
     walks: Any  # TODO should probably change this
 
 
+class AnimalChange(AnimalBase):
+    id: int
+
+
 class AnimalRead(AnimalBase):
     id: int
 

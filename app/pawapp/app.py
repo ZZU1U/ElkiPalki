@@ -20,7 +20,7 @@ from flet import (
 from .pages.animals import AnimalsView
 from .pages.admin import AdminPage
 from .services.settings import write_settings, get_settings
-#from .services.admin import AdminService
+from .services.admin import AdminService
 
 
 load_dotenv(find_dotenv())
@@ -43,7 +43,7 @@ class App:
             page.update()
 
         def admin_login(e):
-            if True:
+            if asyncio.run(AdminService.is_admin(self.admin_name.value)):
                 write_settings('admin', -1)
                 page.close_dialog()
                 page.update()

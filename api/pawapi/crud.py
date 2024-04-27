@@ -3,6 +3,7 @@ from .database import session_factory
 
 
 class CRUD:
+    id: int
     def __init__(self, *args, **kwargs):
         pass
 
@@ -19,3 +20,10 @@ class CRUD:
     async def all(cls):
         async with session_factory() as session:
             return (await session.execute(select(cls))).unique().scalars().all()
+
+    @classmethod
+    async def change(cls, obj):
+        async with session_factory() as session:
+            stmt = select(cls).where(cls.id == obj.id)
+            old_obj = await session.execute(stmt)
+            return old_obj.unique().one_or_none()

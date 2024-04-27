@@ -26,4 +26,5 @@ class CRUD:
         async with session_factory() as session:
             stmt = select(cls).where(cls.id == obj.id)
             old_obj = await session.execute(stmt)
-            return old_obj.unique().one_or_none()
+            print(old_obj.unique().scalar())
+            return old_obj.unique().scalar()

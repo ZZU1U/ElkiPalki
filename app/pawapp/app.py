@@ -153,7 +153,7 @@ class App:
         if settings.get('role', None) is None:
             self.auth(page)
         else:
-            if settings['id'] == -1:
+            if settings.get('role') == 'ADMIN':
                 await AdminPage(page, back=self.logout)
             else:
                 await AnimalsView(page, back=self.logout)

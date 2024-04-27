@@ -7,11 +7,9 @@ import asyncio
 
 
 async def tablepage(page, back=None):
-    print(back)
     rows = []
     page.clean()
     animals = (await AnimalService.get_animals()).json()
-    print(animals)
     for animal in animals:
         for i in range(len(animal['walks'])):
             rows.append(ft.DataRow(cells=[ft.DataCell(ft.Text(animal['walks'][i]['date'])),

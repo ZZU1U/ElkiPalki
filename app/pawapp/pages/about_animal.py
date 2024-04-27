@@ -16,7 +16,7 @@ async def about_animal(page: Page = None, animal: dict = None, back=None):
     page.clean()
     page.appbar = MyAppBar(title=f'{animal["name"]}, {animal["species"]}', back=back, bgcolor='#00000000')
     def newp(e):
-        asyncio.run(tablepage(page, back=about_animal(page, back)))
+        asyncio.run(tablepage(page, back=lambda e: asyncio.run(about_animal(page, animal, back))))
     page.add(Column(
         controls=[
             Image(

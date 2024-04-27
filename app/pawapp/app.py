@@ -39,6 +39,9 @@ class App:
             page.login(provider)
 
         def guest_click(e):
+            def cancel(e):
+                dlg.open = False
+                page.update()
             def user_submit(e):
                 result = bool(re.match(
                     r'^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$', phone.value))
@@ -60,8 +63,9 @@ class App:
             phone = ft.TextField(label='Введите номер телефона', width=300)
             dlg = ft.AlertDialog(content=ft.Column(controls=[
                 name, phone,
-                ft.ElevatedButton('Подтвердить', on_click=user_submit)]
-            ), open=True)
+                ]
+            ), actions=[ft.ElevatedButton('Подтвердить', on_click=user_submit),
+                        ft.ElevatedButton('Отмена', on_click=cancel)], open=True)
             page.dialog = dlg
             page.update()
 

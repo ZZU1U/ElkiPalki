@@ -30,7 +30,6 @@ users = [
     {'name': 'volunteer', 'role': Role.volunteer},
 ]
 
-
 async def test():
     for animal in map(lambda a: Animal(**a), animals):
         await Animal.add(animal)

@@ -18,6 +18,7 @@ from flet import (
     TextField
 )
 from .pages.animals import AnimalsView
+from .pages.admin import AdminPage
 from pawapp.services.settings import write_settings, get_settings
 from pawapp.services.admin import AdminService
 
@@ -26,64 +27,73 @@ load_dotenv(find_dotenv())
 
 
 class App:
-    async def close_dialog(self, e):
-        self.page.dialog.open = False
-        self.page.update()
-
-
-    async def auth(self, page):
+    def auth(self, page):
+        page.clean()
         page.appbar = None
         provider = GoogleOAuthProvider(client_id=os.environ.get('client_id'),
                                        client_secret=os.environ.get('secret'),
                                        redirect_url=os.environ.get('redirect_url'), )
 
-        async def login_click(e):
-            await page.login(provider)
+        def login_click(e):
+            page.login(provider)
 
-        async def guest_click(e):
+        def guest_click(e):
             write_settings('guest', 0)
-            await self.init(page)
-            await page.update_async()
+            asyncio.run(AnimalsView(page, self.logout))
+            page.update()
 
-        async def admin_login(e):
-            if await AdminService.is_admin(self.admin_name.value):
+        def admin_login(e):
+            if asyncio.run(AdminService.is_admin(self.admin_name.value)):
                 write_settings('admin', -1)
-                await self.close_dialog(None)
-                await self.init(self.page)
+                page.close_dialog()
+                page.update()
+                asyncio.run(AdminPage(page, self.logout))
             else:
                 self.admin_error.value = 'You are not admin'
                 self.admin_error.visible = True
-            await page.update_async()
+            page.update()
 
-        async def admin_click(e):
+        def admin_click(e):
             self.admin_name = TextField('', width=200)
             self.admin_error = Text(visible=False)
-            self.page.dialog = AlertDialog(
+            self.dialog = AlertDialog(
                 title=Text('Введите имя админа'),
-                content=Column([Row([
-                    self.admin_name,
-                    IconButton(icon=ft.icons.SEND, on_click=admin_login),
-                ], tight=True), self.admin_error], tight=True),
-                modal=True,
+                content=Column(
+                    controls=[
+                        Row(
+                            controls=[
+                                    self.admin_name,
+                                    IconButton(
+                                        icon=ft.icons.SEND,
+                                        on_click=admin_login
+                                    ),
+                                ],
+                                tight=True
+                            ),
+                            self.admin_error
+                        ],
+                    tight=True
+                ),
                 actions=[
-                    ft.FilledButton(text='Cancel', on_click=self.close_dialog),
+                    ft.FilledButton(text='Cancel', on_click=lambda e: page.close_dialog()),
                 ]
             )
-            self.page.dialog.open = True
+            self.page.dialog = self.dialog
+            self.dialog.open = True
             self.page.update()
 
-        async def on_login(e):
+        def on_login(e):
             write_settings(page.auth.access_token, page.auth.user.id)
-            await self.init(page)
-            await page.update_async()
+            asyncio.run(AnimalsView(page, self.logout))
+            page.update()
 
         page.on_login = on_login
 
-        await page.add_async(
+        page.add(
             Container(
                 content=Column(
                     controls=[
-                        Image(src='logo.png', width=120),
+                        Image(src='logo.png', width=160),
                         Text('Добро пожаловать!', size=24),
                         Container(
                             content=Column(
@@ -102,14 +112,13 @@ class App:
                     spacing=30,
                 ),
                 margin=ft.margin.symmetric(60, 0),
-                height=float('inf'),
             )
         )
 
-    async def logout(self, e):
+    def logout(self, e):
         write_settings(None, None)
-        await self.init(self.page)
-        await self.page.update_async()
+        self.auth(self.page)
+        self.page.update()
 
     async def init(self, page: Page):
         page.clean()
@@ -117,28 +126,14 @@ class App:
         page.theme_mode = 'light'
 
         settings = get_settings()
-        print(settings)
 
         if settings['token'] is None:
-            await self.auth(page)
+            self.auth(page)
         else:
-            page.appbar = AppBar(
-                leading=IconButton(icon=ft.icons.ARROW_BACK, icon_size=20),
-                leading_width=40,
-                title=ft.Text("Добрые руки"),
-                actions=[
-                    IconButton(icon=ft.icons.LOGOUT, icon_size=20, on_click=self.logout),
-                    IconButton(icon=ft.icons.SEARCH, icon_size=20),
-                ]
-            )
             if settings['id'] == -1:
-                await page.add_async(
-                    Text('ADMIN')
-                )
+                await AdminPage(page, back=self.logout)
             else:
-                await page.add_async(
-                    await AnimalsView(),
-                )
+                await AnimalsView(page, back=self.logout)
 
     def __init__(self, page: Page):
         asyncio.run(self.init(page))

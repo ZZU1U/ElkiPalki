@@ -6,7 +6,7 @@ from ..pages.adminchoices import adminchoice
 
 async def AdminPage(page: Page, back=None):
     def runchoice(e):
-        asyncio.run(adminchoice(page, AdminPage))
+        asyncio.run(adminchoice(page, lambda e: asyncio.run(AdminPage(page, back))))
         page.update()
     page.clean()
     page.appbar = MyAppBar(title='Панель админа', back=back)
@@ -19,7 +19,7 @@ async def AdminPage(page: Page, back=None):
                            width=220,
                            height=45,
                            style=ft.ButtonStyle(bgcolor='#FA7800'))
-    btn3 = ft.FilledButton(text='Добавить животное',
+    btn3 = ft.FilledButton(text='Управление',
                            width=220,
                            height=45,
                            style=ft.ButtonStyle(bgcolor='#FA7800'), on_click=runchoice)

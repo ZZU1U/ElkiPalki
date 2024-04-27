@@ -32,7 +32,7 @@ class Animal(Container):
                         ]
                     )),
                     Text(
-                        f'{data["name"]}, {data["age"]} лет',
+                        f'{data["name"]}, {data["age"]}',
                         size=30,
                         color='#FFFFFF',
                         text_align=ft.alignment.bottom_left,

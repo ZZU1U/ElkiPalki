@@ -64,14 +64,14 @@ class App:
                             controls=[
                                     self.admin_name,
                                     IconButton(
-                                        icon=ft.icons.SEND,
+                                        icon=ft.icons.NAVIGATE_NEXT,
                                         on_click=admin_login
                                     ),
                                 ],
-                                tight=True
-                            ),
-                            self.admin_error
-                        ],
+                            tight=True
+                        ),
+                        self.admin_error
+                    ],
                     tight=True
                 ),
                 actions=[

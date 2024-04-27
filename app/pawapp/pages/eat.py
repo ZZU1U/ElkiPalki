@@ -7,8 +7,10 @@ import asyncio
 async def donate_eat(page, animal, back):
     page.clean()
     def thanksfordonate(e):
-        dlg = AlertDialog('Спасибо за пожертвование', open=True)
+        dlg = AlertDialog(content=Text('Спасибо за пожертвование'), open=True)
         page.dialog = dlg
+        page.update()
+
     bar = MyAppBar(title='Корма', back=back)
     bar.center_title = True
     btn = FilledButton('Пожертвовать', width=211, height=45, on_click=thanksfordonate,

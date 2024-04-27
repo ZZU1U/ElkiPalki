@@ -19,7 +19,7 @@ async def AdminPage(page: Page, back=None):
                            width=220,
                            height=45,
                            style=ft.ButtonStyle(bgcolor='#FA7800'))
-    btn3 = ft.FilledButton(text='Добавить животное',
+    btn3 = ft.FilledButton(text='Управление',
                            width=220,
                            height=45,
                            style=ft.ButtonStyle(bgcolor='#FA7800'), on_click=runchoice)

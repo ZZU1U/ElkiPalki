@@ -7,6 +7,7 @@ import asyncio
 
 
 async def tablepage(page, back=None):
+    print(back)
     rows = []
     page.clean()
     animals = (await AnimalService.get_animals()).json()

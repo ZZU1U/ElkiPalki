@@ -15,6 +15,8 @@ STATUSES = {
 async def about_animal(page: Page = None, animal: dict = None, back=None):
     page.clean()
     page.appbar = MyAppBar(title=f'{animal["name"]}, {animal["species"]}', back=back, bgcolor='#00000000')
+    def newp(e):
+        asyncio.run(tablepage(page, back=asyncio.run(about_animal(page, back))))
     page.add(Column(
         controls=[
             Image(
@@ -35,7 +37,7 @@ async def about_animal(page: Page = None, animal: dict = None, back=None):
             Column(controls=[
                 FilledButton('Взять опекунство', width=200, style=styles.button_style,),
                 FilledButton('Помочь кормом', width=200, style=styles.button_style),
-                FilledButton('Прогуляться за лапку', width=200, style=styles.button_style, on_click=lambda e: asyncio.run(tablepage(page, back=about_animal))),
+                FilledButton('Прогуляться за лапку', width=200, style=styles.button_style, on_click=newp),
             ], spacing=20, horizontal_alignment=CrossAxisAlignment.CENTER, width=float('inf')),
         ],
     ))

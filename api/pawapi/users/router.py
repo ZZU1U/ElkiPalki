@@ -19,7 +19,7 @@ async def get(name: str, session: AsyncSession = Depends(get_session)):
     return result
 
 
-@router.post("/create_user")
+@router.post("/create")
 async def create_user(user: UserWrite, session: AsyncSession = Depends(get_session)):
     u = User(**user.dict())
     session.add(u)

@@ -21,7 +21,7 @@ from flet import (
 from .pages.animals import AnimalsView
 from .pages.admin import AdminPage
 from .services.settings import write_settings, get_settings
-from .services.admin import AdminService
+from .services.users import UserService
 
 
 load_dotenv(find_dotenv())
@@ -71,7 +71,9 @@ class App:
             page.update()
 
         def admin_login(e):
-            if asyncio.run(AdminService.is_admin(self.admin_name.value)):
+            user = asyncio.run(UserService.get_by_name(self.admin_name.value)).json()
+            print(user)
+            if user is not None and user.get('role') == 'ADMIN':
                 write_settings(role='ADMIN')
                 page.close_dialog()
                 page.update()

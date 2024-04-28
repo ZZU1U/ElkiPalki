@@ -39,7 +39,6 @@ async def edit_animal(page: Page = None, animal: dict = None, back=None):
     spicies = TextField(f'{animal["species"]}', label='Вид/порода')
     age = TextField(f'{animal["age"]}', label='Возраст')
     description = TextField(f'{animal["description"]}', multiline=True, label='Описание')
-    #food_donated = TextField(f'{animal["food_donated"]}', label='Пожертвовано еды')
     food_daily = TextField(f'{animal["food_daily"]}', label='Дневная норма')
     image = TextField(f'{animal["image"]}', label='Ссылка на фото')
     page.add(Container(Column(
@@ -60,5 +59,4 @@ async def edit_animal(page: Page = None, animal: dict = None, back=None):
             FilledButton('Подтвердить', on_click=clicked_submit)
         ]
     ), width=float('inf'), margin=15))
-    print(animal)
     page.update()

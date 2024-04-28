@@ -49,7 +49,6 @@ class App:
                     dlg.open = False
                     write_settings(role='guest', name=name.value)
                     res = asyncio.run(UserService.add_user({'role': 'USER', 'name': name.value, 'phone': phone.value})).json()
-                    print(res)
                     asyncio.run(AnimalsView(page, self.logout))
 
                 if not result:
@@ -75,7 +74,6 @@ class App:
 
         def admin_login(e):
             user = asyncio.run(UserService.get_by_name(self.admin_name.value)).json()
-            print(user)
             if user is not None and user.get('role') == 'ADMIN':
                 write_settings(role='ADMIN', name=self.admin_name.value)
                 page.close_dialog()

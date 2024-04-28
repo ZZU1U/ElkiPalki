@@ -44,4 +44,3 @@ def get_shops_near(lat: float, lng: float):
         #https://developers.google.com/maps/documentation/places/web-service/nearby-search?hl=ru
     )
 
-    print(response.json())

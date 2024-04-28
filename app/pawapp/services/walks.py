@@ -17,8 +17,6 @@ class WalksService:
     async def add(walk: dict):
         async with AsyncClient() as client:
             user_id = (await UserService.get_by_name(walk['user_name'])).json().get('id', None)
-            print((await UserService.get_by_name(walk['user_name'])).json())
             del walk['user_name']
             walk['user_id'] = user_id
-            print(walk)
             return await client.post(f'{os.environ.get("server_url")}/walks/add', json=walk)

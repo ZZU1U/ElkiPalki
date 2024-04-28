@@ -1,3 +1,14 @@
 * PawPalace
 
-PawPalace это приложение для "Добрые руки"
+PawPalace это приложение для приюта животных "Добрые руки"
+
+Этот проект является решением кейса для "хакатона" Елкин Код
+
+[[https://youtu.be/VFAB-4G1nm0][Preview]]
+
+Основные технологии:
+- PostgreSQL
+- FastAPI
+- Flet
+- Pydantic
+- SQLAlchemy

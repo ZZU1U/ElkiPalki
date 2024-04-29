@@ -1,5 +1,8 @@
+from typing import AsyncGenerator
+
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncAttrs, AsyncSession
+
 from pawapi.config import settings
 
 engine = create_async_engine(
@@ -9,7 +12,7 @@ engine = create_async_engine(
     max_overflow=10,
 )
 
-session_factory = async_sessionmaker(engine)
+session_factory = async_sessionmaker(engine, expire_on_commit=False)
 
 
 class Base(AsyncAttrs, DeclarativeBase):
@@ -22,6 +25,6 @@ async def create_tables() -> None:
         await conn.run_sync(Base.metadata.create_all)
 
 
-async def get_session() -> AsyncSession:
+async def get_session() -> AsyncGenerator[AsyncSession, None]:
     async with session_factory() as session:
         yield session

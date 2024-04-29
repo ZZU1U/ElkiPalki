@@ -1,6 +1,11 @@
 from datetime import datetime
+
+from .database import session_factory
 from .enums import AnimalStatus
-from .models import User, Animal, Role, Walk
+
+from ..auth.models import User
+from ..animals.models import Animal
+from ..walks.models import Walk
 
 
 animals = [
@@ -14,16 +19,11 @@ animals = [
     {'name': 'Toby', 'species': 'Rabbit', 'age': 7, 'description': 'friendly fellow', 'image': 'https://cdn.britannica.com/20/194520-050-DCAE62F1/New-World-Sylvilagus-cottontail-rabbits.jpg'},
 ]
 
-users = [
-    {'name': 'NOTANADMIN', 'role': Role.admin},
-    {'name': 'ADMIN', 'role': Role.user},
-    {'name': 'volunteer', 'role': Role.volunteer},
-]
 
 async def test():
-    for user in users:
-        await User.add(User(**user))
-    me = (await User.all())[0]
-    for animal in map(lambda a: Animal(**a), animals):
-        await Animal.add(animal)
-        await Walk.add(Walk(date=datetime.now(), duration=30, animal=animal, user=me))
+    async with session_factory() as session:
+
+        for animal in map(lambda a: Animal(**a), animals):
+            session.add(animal)
+
+        await session.commit()

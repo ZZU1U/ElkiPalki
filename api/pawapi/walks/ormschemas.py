@@ -1,6 +1,6 @@
 from ..animals.schemas import AnimalRead
-from ..users.schemas import UserRead
-from .schemas import WalkRead, WalkWrite
+from pawapi.auth.schemas import UserRead
+from .schemas import WalkRead
 
 
 class WalkRelRead(WalkRead):

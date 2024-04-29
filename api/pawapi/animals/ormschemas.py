@@ -1,6 +1,5 @@
-from .schemas import *
-from ..walks.schemas import *
-from ..users.schemas import *
+from .schemas import AnimalRead
+from ..walks.schemas import WalkRead
 
 
 class AnimalRelRead(AnimalRead):

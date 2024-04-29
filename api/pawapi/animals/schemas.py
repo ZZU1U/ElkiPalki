@@ -1,7 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel
-from typing import Any
-from pawapi.enums import AnimalStatus
+
+from ..db.enums import AnimalStatus
 
 
 class AnimalBase(BaseModel):
@@ -16,7 +16,7 @@ class AnimalBase(BaseModel):
     food_daily: int | None
 
 
-class AnimalChange(AnimalBase):
+class AnimalUpdate(AnimalBase):
     id: int
 
 
@@ -24,5 +24,5 @@ class AnimalRead(AnimalBase):
     id: int
 
 
-class AnimalWrite(AnimalBase):
+class AnimalCreate(AnimalBase):
     pass

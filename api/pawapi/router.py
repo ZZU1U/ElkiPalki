@@ -1,26 +1,20 @@
-from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .animals.router import router as animals_router
-from .users.router import router as users_router
+from .auth.router import router as auth_router
 from .walks.router import router as walks_router
-from .database import create_tables
-from .test import test
+from .cli import create_all
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    await create_tables()
-    await test()
-    yield
 
 app = FastAPI(
-    lifespan=lifespan,
+    lifespan=create_all,
     title="Paw API",
 )
+
 app.include_router(animals_router)
-app.include_router(users_router)
 app.include_router(walks_router)
+app.include_router(auth_router)
 
 origins = ["*"]
 

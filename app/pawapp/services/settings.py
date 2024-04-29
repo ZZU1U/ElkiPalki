@@ -1,14 +1,38 @@
 import json
+import os
 
 
-def write_settings(**kwargs):
-    with open('settings.json', 'w+') as f:
-        json.dump(kwargs, f)
+class Settings:
+    @staticmethod
+    def init():
+        if not os.path.exists('settings.json'):
+            with open('settings.json', 'w') as f:
+                json.dump({}, f)
 
+    @staticmethod
+    def token() -> str:
+        with open('settings.json', 'r') as f:
+            return json.load(f).get('token', '')
 
-def get_settings():
-    try:
+    @staticmethod
+    def headers():
+        token = Settings.token()
+        headers = {
+            'Authorization': f'Bearer {token}'
+        }
+        return headers
+
+    @staticmethod
+    def write(**kwargs) -> None:
+        with open('settings.json', 'w+') as f:
+            json.dump(kwargs, f)
+
+    @staticmethod
+    def read() -> dict:
         with open('settings.json', 'r+') as f:
             return json.load(f)
-    except FileNotFoundError:
-        return {'token': None, 'id': None}
+
+    @staticmethod
+    def clear() -> None:
+        with open('settings.json', 'w+') as f:
+            f.write('')

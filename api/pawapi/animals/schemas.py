@@ -9,11 +9,11 @@ class AnimalBase(BaseModel):
     species: str
     age: int
     description: str
-    image: str | None
-    status: AnimalStatus | None
-    last_donation: datetime | None
-    food_donated: int | None
-    food_daily: int | None
+    image: str | None = None
+    status: AnimalStatus | None = None
+    last_donation: datetime | None = None
+    food_donated: int | None = None
+    food_daily: int | None = None
 
 
 class AnimalUpdate(AnimalBase):

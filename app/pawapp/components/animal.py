@@ -14,7 +14,7 @@ from flet import (
 
 
 class Animal(Container):
-    def __init__(self, data: 'AnimalRead', *args, **kwargs):
+    def __init__(self, data: dict, *args, **kwargs):
         super().__init__(
             image_fit=ft.ImageFit.FIT_WIDTH,
             image_src=data['image'],

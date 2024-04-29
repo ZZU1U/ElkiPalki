@@ -1,17 +1,16 @@
-import httpx
-import asyncio
 from flet import ListView, Column, Page
+from typing import Callable
 from ..components.appbar import MyAppBar
 from ..components.animal import Animal
-from ..services.animals import AnimalService
+from ..services.animal import AnimalService
 
 
-async def AnimalsView(page: Page, back=None):
+def animals_view(page: Page, back: Callable = None):
     page.clean()
 
-    page.appbar = MyAppBar('Наши животные', back=back)
+    page.appbar = MyAppBar('Наши животные', back=back, actions=[])
 
-    animals = (await AnimalService.get_animals()).json()
+    animals = AnimalService.read_all()
 
     page.add(
         ListView(
@@ -20,7 +19,7 @@ async def AnimalsView(page: Page, back=None):
                     lambda animal: Animal(
                         animal,
                         page=page,
-                        back=(lambda e: asyncio.run(AnimalsView(page, back)))
+                        back=(lambda e: animals_view(page, back))
                     ),
                     animals
                 )

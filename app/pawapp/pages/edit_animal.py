@@ -18,7 +18,7 @@ async def edit_animal(page: Page = None, animal: dict = None, back=None):
         else:
             animal["status"] = 'UNAVAILABLE'
         animal['name'] = name.value
-        animal['species'] = spicies.value
+        animal['species'] = species.value
         animal['food_daily'] = food_daily.value
         animal['image'] = image.value
         animal['age'] = age.value
@@ -36,7 +36,7 @@ async def edit_animal(page: Page = None, animal: dict = None, back=None):
                   label='статус'
             )
     name = TextField(f'{animal["name"]}', label='имя')
-    spicies = TextField(f'{animal["species"]}', label='Вид/порода')
+    species = TextField(f'{animal["species"]}', label='Вид/порода')
     age = TextField(f'{animal["age"]}', label='Возраст')
     description = TextField(f'{animal["description"]}', multiline=True, label='Описание')
     food_daily = TextField(f'{animal["food_daily"]}', label='Дневная норма')
@@ -51,7 +51,7 @@ async def edit_animal(page: Page = None, animal: dict = None, back=None):
             ),
             dd,
             name,
-            spicies,
+            species,
             age,
             description,
             food_daily,

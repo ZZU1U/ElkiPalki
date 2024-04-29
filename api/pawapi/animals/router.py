@@ -2,9 +2,10 @@ from fastapi import APIRouter
 from sqlalchemy import select
 
 from .models import Animal
-from .schemas import AnimalRead, AnimalUpdate
+from .schemas import AnimalRead, AnimalUpdate, AnimalCreate
 from .ormschemas import AnimalRelRead
 from ..db.annotations import gen_session
+from ..user.auth.dependencies import user, superuser
 
 
 router = APIRouter(prefix='/animals', tags=['animals'])
@@ -27,7 +28,7 @@ async def read_animal_by_id(animal_id: int, session: gen_session) -> AnimalRelRe
 
 
 @router.delete("/{animal_id}")
-async def delete_animal(animal_id: int, session: gen_session) -> AnimalRead:
+async def delete_animal(animal_id: int, session: gen_session, super_user: superuser) -> AnimalRead:
     animal = await session.get(Animal, animal_id)
 
     await session.delete(animal)
@@ -37,8 +38,18 @@ async def delete_animal(animal_id: int, session: gen_session) -> AnimalRead:
 
 
 @router.put("/")
-async def update_animal(animal: AnimalUpdate, session: gen_session) -> AnimalRead:
+async def update_animal(animal: AnimalUpdate, session: gen_session, super_user: superuser) -> AnimalRead:
     await session.merge(Animal(**animal.dict()))
     await session.commit()
 
-    return AnimalRead.model_validate(animal)
+    return AnimalRead.model_validate(animal, from_attributes=True)
+
+
+@router.post("/")
+async def create_animal(animal: AnimalCreate, session: gen_session, super_user: superuser) -> AnimalRead:
+    animal_model = Animal(**animal.dict())
+
+    session.add(animal_model)
+    await session.commit()
+
+    return AnimalRead.model_validate(animal_model, from_attributes=True)

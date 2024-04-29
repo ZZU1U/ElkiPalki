@@ -3,7 +3,7 @@ import flet as ft
 import asyncio
 from ..components.appbar import MyAppBar
 from ..pages.adminchoices import adminchoice
-from ..pages.TablePageAdmin import tablepageadmin
+from ..pages.table_admin import tablepageadmin
 
 async def AdminPage(page: Page, back=None):
 

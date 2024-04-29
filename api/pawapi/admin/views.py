@@ -1,13 +1,8 @@
-from sqladmin import Admin, ModelView
+from sqladmin import ModelView
 
-from .walks.models import Walk
+from pawapi.walks.models import Walk
 from pawapi.user.models import User
-from .animals.models import Animal
-from .db.database import engine
-from .router import app
-
-
-admin = Admin(app, engine)
+from pawapi.animals.models import Animal
 
 
 class UserAdmin(ModelView, model=User):
@@ -35,8 +30,3 @@ class WalkAdmin(ModelView, model=Walk):
     icon = "fa-solid fa-person-walking"
 
     column_list = [Walk.id, Walk.date, Walk.duration, Walk.user, Walk.animal]
-
-
-admin.add_view(UserAdmin)
-admin.add_view(AnimalAdmin)
-admin.add_view(WalkAdmin)

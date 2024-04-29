@@ -3,15 +3,16 @@ import flet as ft
 import datetime as dt
 from datetime import datetime
 from ..components.appbar import MyAppBar
-from ..services.settings import get_settings
-from ..services.walks import WalksService
+from ..services.walk import WalkService
+from ..services.user import UserService
 import asyncio
 
 
 async def tablepage(page, animal, back=None):
     rows = []
     page.clean()
-    animal['walks'] = (await WalksService.get_walks_for_animal(animal['id'])).json()
+    person = UserService.current()
+    animal['walks'] = (await WalkService.get_walks_for_animal(animal['id'])).json()
     for i in range(len(animal['walks'])):
         a = datetime.fromisoformat(animal['walks'][i]['date'])
         rows.append(ft.DataRow(cells=[ft.DataCell(ft.Text(datetime.strftime(a, '%d.%m %H:%M'))),
@@ -30,7 +31,7 @@ async def tablepage(page, animal, back=None):
             page.update()
             return
 
-        asyncio.run(WalksService.add({
+        asyncio.run(WalkService.add({
             'user_name': get_settings()['name'],
             'animal_id': animal['id'],
             'date': c.isoformat(),

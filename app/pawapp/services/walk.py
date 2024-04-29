@@ -1,0 +1,2 @@
+class WalkService:
+    pass

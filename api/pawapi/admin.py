@@ -1,10 +1,10 @@
 from sqladmin import Admin, ModelView
 
-from ..walks.models import Walk
-from ..auth.models import User
-from ..animals.models import Animal
-from ..db.database import engine
-from ..router import app
+from .walks.models import Walk
+from pawapi.user.models import User
+from .animals.models import Animal
+from .db.database import engine
+from .router import app
 
 
 admin = Admin(app, engine)

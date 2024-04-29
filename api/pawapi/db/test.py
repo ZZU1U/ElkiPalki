@@ -1,12 +1,7 @@
-from datetime import datetime
-
 from .database import session_factory
 from .enums import AnimalStatus
 
-from ..auth.models import User
 from ..animals.models import Animal
-from ..walks.models import Walk
-
 
 animals = [
     {'name': 'Jack', 'species': 'Dog', 'age': 5, 'description': 'nice dog', 'image': 'https://pettownsendvet.com/wp-content/uploads/2023/01/iStock-1052880600-1024x683.jpg'},

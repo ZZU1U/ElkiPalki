@@ -4,8 +4,8 @@ from fastapi import Depends, Request
 
 from fastapi_users import BaseUserManager, IntegerIDMixin
 
-from .models import User, get_user_db
-from ..config import settings
+from pawapi.user.models import User, get_user_db
+from pawapi.config import settings
 
 
 SECRET = settings.MANAGER_TOKEN

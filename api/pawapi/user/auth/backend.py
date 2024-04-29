@@ -2,7 +2,7 @@ from fastapi_users.authentication import AuthenticationBackend
 
 from .bearer import bearer_transport
 from .strategy import get_database_strategy
-from ..config import settings
+from pawapi.config import settings
 
 
 SECRET = settings.BACKEND_TOKEN

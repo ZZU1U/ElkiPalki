@@ -19,6 +19,8 @@ sqladmin = "^0.16.1"
 # Data
 pydantic = "^2.7.1"
 pydantic-settings = "^2.2.1"
+pydantic-extra-types = "^2.7.0"
+phonenumbers = "^8.13.35"
 
 # DB
 sqlalchemy = "^2.0.29"

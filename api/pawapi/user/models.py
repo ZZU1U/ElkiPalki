@@ -12,8 +12,8 @@ from sqlalchemy import Integer, ForeignKey
 from sqlalchemy.orm import declared_attr, Mapped, mapped_column, relationship
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ..db.database import get_session, Base
-from ..db.annotations import intpk
+from pawapi.db.database import get_session, Base
+from pawapi.db.annotations import intpk
 
 
 class User(SQLAlchemyBaseUserTable[int], Base):

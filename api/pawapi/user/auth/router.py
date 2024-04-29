@@ -4,8 +4,8 @@ from fastapi_users import FastAPIUsers
 
 from .backend import auth_backend
 from .manager import get_user_manager
-from .models import User
-from .schemas import UserRead, UserCreate
+from pawapi.user.models import User
+from pawapi.user.schemas import UserRead, UserCreate
 
 
 fastapi_users = FastAPIUsers[User, int](

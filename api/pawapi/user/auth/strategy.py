@@ -2,7 +2,7 @@ from fastapi import Depends
 
 from fastapi_users.authentication.strategy.db import AccessTokenDatabase, DatabaseStrategy
 
-from .models import AccessToken, get_access_token_db
+from pawapi.user.models import AccessToken, get_access_token_db
 
 
 def get_database_strategy(

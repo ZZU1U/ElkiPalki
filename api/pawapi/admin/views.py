@@ -1,22 +1,33 @@
 from sqladmin import ModelView
+from fastapi import Request
 
-from pawapi.walks.models import Walk
+from pawapi.walk.models import Walk
 from pawapi.user.models import User
-from pawapi.animals.models import Animal
+from pawapi.animal.models import Animal
+from .auth import authentication_backend
 
 
-class UserAdmin(ModelView, model=User):
+class Permissions:
+    def is_visible(self, request: Request) -> bool:
+        return authentication_backend.authenticate(request)
+
+    def is_accessible(self, request: Request) -> bool:
+        return authentication_backend.authenticate(request)
+
+
+class UserAdmin(Permissions, ModelView, model=User):
+
     name = "Users"
     name_plural = "Users"
     icon = "fa-solid fa-user"
 
-    column_list = [User.id, User.name, User.phone, User.email]
+    column_list = [User.id, User.name, User.phone]
 
     can_edit = False
     can_delete = False
 
 
-class AnimalAdmin(ModelView, model=Animal):
+class AnimalAdmin(Permissions, ModelView, model=Animal):
     name = "Animals"
     name_plural = "Animals"
     icon = "fa-solid fa-dog"
@@ -24,7 +35,7 @@ class AnimalAdmin(ModelView, model=Animal):
     column_list = [Animal.id, Animal.status, Animal.species, Animal.name, Animal.age, Animal.description]
 
 
-class WalkAdmin(ModelView, model=Walk):
+class WalkAdmin(Permissions, ModelView, model=Walk):
     name = "Walks"
     name_plural = "Walks"
     icon = "fa-solid fa-person-walking"

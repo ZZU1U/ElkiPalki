@@ -1,4 +1,4 @@
-from ..animals.schemas import AnimalRead
+from ..animal.schemas import AnimalRead
 from pawapi.user.schemas import UserRead
 from .schemas import WalkRead
 

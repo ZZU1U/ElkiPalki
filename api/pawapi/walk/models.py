@@ -10,7 +10,7 @@ class Walk(Base):
     id: Mapped[intpk]
     date: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     duration: Mapped[int]
-    animal_id: Mapped[int] = mapped_column(ForeignKey("animal.id"))
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+    animal_id: Mapped[int] = mapped_column(ForeignKey("animal.id", ondelete="CASCADE"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id", ondelete="CASCADE"))
     animal: Mapped["Animal"] = relationship(back_populates='walks', lazy='select')
     user: Mapped["User"] = relationship(back_populates='walks', lazy='select')

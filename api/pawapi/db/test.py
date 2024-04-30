@@ -1,7 +1,10 @@
+from werkzeug.security import generate_password_hash
+
 from .database import session_factory
 from .enums import AnimalStatus
 
-from ..animals.models import Animal
+from ..animal.models import Animal
+from ..user.models import User
 
 animals = [
     {'name': 'Jack', 'species': 'Dog', 'age': 5, 'description': 'nice dog', 'image': 'https://pettownsendvet.com/wp-content/uploads/2023/01/iStock-1052880600-1024x683.jpg'},
@@ -14,11 +17,20 @@ animals = [
     {'name': 'Toby', 'species': 'Rabbit', 'age': 7, 'description': 'friendly fellow', 'image': 'https://cdn.britannica.com/20/194520-050-DCAE62F1/New-World-Sylvilagus-cottontail-rabbits.jpg'},
 ]
 
+users = [
+    {'name': 'Default admin', 'password': '123456', 'phone': '88005553535', 'is_superuser': True},
+]
+
 
 async def test():
     async with session_factory() as session:
 
         for animal in map(lambda a: Animal(**a), animals):
             session.add(animal)
+
+        for user in users:
+            user['hashed_password'] = generate_password_hash(user['password'])
+            user.pop('password')
+            session.add(User(**user))
 
         await session.commit()

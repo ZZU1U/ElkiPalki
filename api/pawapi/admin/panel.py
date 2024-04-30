@@ -1,10 +1,16 @@
+from sqladmin import Admin
+from ..db.database import engine, session_factory
+from ..router import app
+from .views import UserAdmin, AnimalAdmin, WalkAdmin
+from .auth import authentication_backend
 
-from pawapi.db.database import engine
-from pawapi.router import app
 
-
-admin = Admin(app, engine)
-
+admin = Admin(
+    app=app,
+    engine=engine,
+    session_maker=session_factory,
+    authentication_backend=authentication_backend
+)
 
 admin.add_view(UserAdmin)
 admin.add_view(AnimalAdmin)

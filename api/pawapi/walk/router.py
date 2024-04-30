@@ -7,7 +7,7 @@ from .schemas import WalkRead
 from ..db.annotations import gen_session
 
 
-router = APIRouter(prefix='/walks', tags=['walks'])
+router = APIRouter(prefix='/walk', tags=['walk'])
 
 
 @router.get('/')

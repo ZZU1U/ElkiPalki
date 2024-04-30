@@ -19,4 +19,4 @@ class Animal(Base):
     last_donation: Mapped[datetime | None]
     food_donated: Mapped[int | None] = mapped_column(default=0)
     food_daily: Mapped[int | None] = mapped_column(default=500)
-    walks: Mapped[list["Walk"]] = relationship(lazy='selectin')
+    walks: Mapped[list["Walk"]] = relationship(lazy='selectin', back_populates='animal')

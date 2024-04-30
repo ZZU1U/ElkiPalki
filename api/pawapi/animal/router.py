@@ -1,14 +1,14 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from sqlalchemy import select
 
 from .models import Animal
 from .schemas import AnimalRead, AnimalUpdate, AnimalCreate
 from .ormschemas import AnimalRelRead
 from ..db.annotations import gen_session
-from ..user.auth.dependencies import user, superuser
+from ..user.auth.manager import current_user
 
 
-router = APIRouter(prefix='/animals', tags=['animals'])
+router = APIRouter(prefix='/animal', tags=['animal'])
 
 
 @router.get("/")
@@ -28,7 +28,10 @@ async def read_animal_by_id(animal_id: int, session: gen_session) -> AnimalRelRe
 
 
 @router.delete("/{animal_id}")
-async def delete_animal(animal_id: int, session: gen_session, super_user: superuser) -> AnimalRead:
+async def delete_animal(animal_id: int, session: gen_session, user: current_user) -> AnimalRead:
+    if not user.is_superuser:
+        raise HTTPException(403, 'You do not enough permissions.')
+
     animal = await session.get(Animal, animal_id)
 
     await session.delete(animal)
@@ -38,16 +41,22 @@ async def delete_animal(animal_id: int, session: gen_session, super_user: superu
 
 
 @router.put("/")
-async def update_animal(animal: AnimalUpdate, session: gen_session, super_user: superuser) -> AnimalRead:
-    await session.merge(Animal(**animal.dict()))
+async def update_animal(animal: AnimalUpdate, session: gen_session, user: current_user) -> AnimalRead:
+    if not user.is_superuser:
+        raise HTTPException(403, 'You do not enough permissions.')
+
+    await session.merge(Animal(**animal.model_dump()))
     await session.commit()
 
     return AnimalRead.model_validate(animal, from_attributes=True)
 
 
 @router.post("/")
-async def create_animal(animal: AnimalCreate, session: gen_session, super_user: superuser) -> AnimalRead:
-    animal_model = Animal(**animal.dict())
+async def create_animal(animal: AnimalCreate, session: gen_session, user: current_user) -> AnimalRead:
+    if not user.is_superuser:
+        raise HTTPException(403, 'You do not enough permissions.')
+
+    animal_model = Animal(**animal.model_dump())
 
     session.add(animal_model)
     await session.commit()

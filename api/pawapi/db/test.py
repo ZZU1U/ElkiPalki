@@ -1,5 +1,3 @@
-from werkzeug.security import generate_password_hash
-
 from .database import session_factory
 from .enums import AnimalStatus
 
@@ -28,9 +26,7 @@ async def test():
         for animal in map(lambda a: Animal(**a), animals):
             session.add(animal)
 
-        for user in users:
-            user['hashed_password'] = generate_password_hash(user['password'])
-            user.pop('password')
-            session.add(User(**user))
+        for user in map(lambda u: User(**u), users):
+            session.add(user)
 
         await session.commit()

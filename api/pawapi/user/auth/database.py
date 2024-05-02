@@ -1,4 +1,5 @@
 from sqlalchemy import select
+from sqlalchemy_utils import PhoneNumber
 
 from pawapi.db.database import session_factory
 from ..models import User

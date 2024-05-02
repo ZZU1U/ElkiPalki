@@ -1,10 +1,11 @@
 from sqladmin.authentication import AuthenticationBackend
-from fastapi import Request, HTTPException
-from werkzeug.security import check_password_hash
 
-from ..user.auth.database import load_user
+from fastapi_login.exceptions import InvalidCredentialsException
+
+from fastapi import Request
+
+from ..user.auth.utils import get_access_token
 from ..user.auth.manager import manager
-from ..config import settings
 
 
 class AdminAuth(AuthenticationBackend):
@@ -13,13 +14,10 @@ class AdminAuth(AuthenticationBackend):
         form = await request.form()
         phone, password = form["username"], form["password"]
 
-        user = await load_user(phone)
-        if user is None or not check_password_hash(user.hashed_password, password):
+        try:
+            token = await get_access_token(phone, password)
+        except InvalidCredentialsException:
             return False
-
-        token = manager.create_access_token(
-            data=dict(sub=phone)
-        )
 
         request.session.update({"token": token})
         return True

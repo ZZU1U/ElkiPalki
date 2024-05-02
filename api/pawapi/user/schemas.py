@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator, Field
 from pydantic_extra_types.phone_numbers import PhoneNumber
 
 
@@ -14,7 +14,7 @@ class UserRead(UserBase):
 
 
 class UserCreate(UserBase):
-    password: str
+    password: str = Field()
 
 
 class UserUpdate(UserBase):

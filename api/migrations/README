@@ -1,0 +1,10 @@
+Generic single-database configuration with an async dbapi.
+
+to create revision run:
+
+alembic revision --autogenerate -m "MESSAGE"
+
+
+to migrate:
+
+alembic upgrade REVISION_ID

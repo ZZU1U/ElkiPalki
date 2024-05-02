@@ -8,11 +8,11 @@ from .auth import authentication_backend
 
 
 class Permissions:
-    def is_visible(self, request: Request) -> bool:
-        return authentication_backend.authenticate(request)
+    async def is_visible(self, request: Request) -> bool:
+        return await authentication_backend.authenticate(request)
 
-    def is_accessible(self, request: Request) -> bool:
-        return authentication_backend.authenticate(request)
+    async def is_accessible(self, request: Request) -> bool:
+        return await authentication_backend.authenticate(request)
 
 
 class UserAdmin(Permissions, ModelView, model=User):
